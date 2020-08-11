@@ -52,29 +52,31 @@ namespace EFCore.WebAPI.Controllers
             return Ok(Alunos);
         }
 
-        // GET api/<AlunoController>/5
+        
         [HttpGet("{id}")]
         public Aluno GetById(int id)
         {
             return Alunos.Find(x => x.Id == id);
         }
 
-        // POST api/<AlunoController>
+        
         [HttpPost]
         public void Post([FromBody] string value)
         {
         }
 
-        // PUT api/<AlunoController>/5
+        
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE api/<AlunoController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            if (Alunos.Find(x => x.Id == id) == null) return BadRequest("Nao achou!");
+
+            return Ok("Request Delete do " + Alunos.Find(x => x.Id == id).Nome);
         }
     }
 }
