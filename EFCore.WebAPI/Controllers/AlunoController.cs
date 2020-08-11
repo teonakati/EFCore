@@ -1,6 +1,8 @@
-﻿using EFCore.WebAPI.Models;
+﻿using EFCore.WebAPI.Data;
+using EFCore.WebAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EFCore.WebAPI.Controllers
 {
@@ -8,55 +10,24 @@ namespace EFCore.WebAPI.Controllers
     [ApiController]
     public class AlunoController : ControllerBase
     {
-        public List<Aluno> Alunos = new List<Aluno>()
+        private readonly EntityContext _context;
+
+        public AlunoController(EntityContext context)
         {
-            new Aluno()
-            {
-                Id = 1,
-                Nome = "Teo",
-                Sobrenome = "Nakati",
-                Telefone = "67 981512546"
-            },
-            new Aluno()
-            {
-                Id = 2,
-                Nome = "Carlos",
-                Sobrenome = "Teixeira",
-                Telefone = "67 543242133"
-            },
-            new Aluno()
-            {
-                Id = 3,
-                Nome = "Pedro",
-                Sobrenome = "Castro",
-                Telefone = "67 231232133"
-            },
-            new Aluno()
-            {
-                Id = 4,
-                Nome = "Leonardo",
-                Sobrenome = "Nakati",
-                Telefone = "67 1231231231"
-            },
-
-        };
-
-        public AlunoController()
-        {
-
+            _context = context;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(Alunos);
+            return Ok(_context.Alunos);
         }
 
         
         [HttpGet("{id}")]
         public Aluno GetById(int id)
         {
-            return Alunos.Find(x => x.Id == id);
+            return _context.Alunos.FirstOrDefault(x => x.Id == id);
         }
 
         
@@ -74,9 +45,9 @@ namespace EFCore.WebAPI.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            if (Alunos.Find(x => x.Id == id) == null) return BadRequest("Nao achou!");
+            if (_context.Alunos.FirstOrDefault(x => x.Id == id) == null) return BadRequest("Nao achou!");
 
-            return Ok("Request Delete do " + Alunos.Find(x => x.Id == id).Nome);
+            return Ok("Request Delete do " + _context.Alunos.FirstOrDefault(x => x.Id == id).Nome);
         }
     }
 }
