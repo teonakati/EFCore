@@ -13,17 +13,16 @@ namespace EFCore.WebAPI.Controllers
     [ApiController]
     public class ProfessorController : ControllerBase
     {
-        private readonly EntityContext _context;
-
-        public ProfessorController(EntityContext context)
+        private readonly IRepository _repository;
+        public ProfessorController(IRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            var prof = _context.Professores;
+            var prof = _repository.GetAllProfessores(false);
             if (prof == null) return BadRequest("Não há professores cadastrados na base de dados.");
             return Ok(prof);
         }
@@ -32,7 +31,7 @@ namespace EFCore.WebAPI.Controllers
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            var prof = _context.Professores.FirstOrDefault(x => x.Id == id);
+            var prof = _repository.GetProfessor(false);
             if (prof == null) return BadRequest("Professor não encontrado na base de dados.");
             return Ok(prof);
         }
@@ -43,30 +42,48 @@ namespace EFCore.WebAPI.Controllers
         {
             var prof = professor;
             if (prof == null) return BadRequest("Não é possível gravar um professor NULO.");
-            _context.Add(prof);
-            _context.SaveChanges();
-            return Ok(prof);
+            _repository.Add(prof);
+            if (_repository.SaveChanges())
+            {
+                return Ok(prof);
+            }
+            else
+            {
+                return BadRequest("Falha ao gravar Professor.");
+            }
         }
 
 
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] Professor professor)
         {
-            var prof = _context.Professores.AsNoTracking().FirstOrDefault(x => x.Id == id);
+            var prof = _repository.GetProfessor(false);
             if (prof == null) return BadRequest("Professor não encontrado na base de dados.");
-            _context.Update(professor);
-            _context.SaveChanges();
-            return Ok(professor);
+            _repository.Add(prof);
+            if (_repository.SaveChanges())
+            {
+                return Ok(professor);
+            }
+            else
+            {
+                return BadRequest("Falha ao alterar professor.");
+            }
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var prof = _context.Professores.FirstOrDefault(x => x.Id == id);
+            var prof = _repository.GetProfessor(false);
             if (prof == null) return BadRequest("Professor não encontrado na base de dados.");
-            _context.Remove(prof);
-            _context.SaveChanges();
-            return Ok("Professor removido com sucesso!");
+            _repository.Add(prof);
+            if (_repository.SaveChanges())
+            {
+                return Ok("Professor removido com sucesso!");
+            }
+            else
+            {
+                return BadRequest("Falha ao remover professor.");
+            }
         }
     }
 }

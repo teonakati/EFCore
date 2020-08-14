@@ -29,7 +29,9 @@ namespace EFCore.WebAPI
                 context => context.UseSqlServer(Configuration.GetConnectionString("Default"))
             );
             services.AddScoped<IRepository, Repository>();
-            services.AddControllers();
+            services.AddControllers()
+                .AddNewtonsoftJson(option => option.SerializerSettings.ReferenceLoopHandling =
+                                             Newtonsoft.Json.ReferenceLoopHandling.Ignore);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
