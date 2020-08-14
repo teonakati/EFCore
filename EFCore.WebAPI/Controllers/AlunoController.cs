@@ -13,10 +13,12 @@ namespace EFCore.WebAPI.Controllers
     public class AlunoController : ControllerBase
     {
         private readonly EntityContext _context;
+        private readonly IRepository _repository;
 
-        public AlunoController(EntityContext context)
+        public AlunoController(EntityContext context, IRepository repository)
         {
             _context = context;
+            _repository = repository;
         }
 
         [HttpGet]
@@ -41,10 +43,16 @@ namespace EFCore.WebAPI.Controllers
         public IActionResult Post([FromBody] Aluno aluno)
         {
             var alu = aluno;
-            if (alu == null) return BadRequest("Ocorreu um erro ao gravar aluno.");
-            _context.Add(alu);
-            _context.SaveChanges();
-            return Ok(alu);
+            if (alu == null) return BadRequest("Não é possível gravar um aluno NULO.");
+            _repository.Add(alu);
+            if (_repository.SaveChanges())
+            {
+                return Ok(alu);
+            }
+            else
+            {
+                return BadRequest("Falha ao gravar aluno.");
+            }
         }
 
         
@@ -53,9 +61,15 @@ namespace EFCore.WebAPI.Controllers
         {
             var alu = _context.Alunos.AsNoTracking().FirstOrDefault(x => x.Id == id);
             if (alu == null) return BadRequest("Aluno não encontrado na base de dados.");
-            _context.Update(aluno);
-            _context.SaveChanges();
-            return Ok(aluno);
+            _repository.Update(alu);
+            if (_repository.SaveChanges())
+            {
+                return Ok(alu);
+            }
+            else
+            {
+                return BadRequest("Falha ao gravar alterações.");
+            }
         }
 
         [HttpDelete("{id}")]
@@ -63,9 +77,15 @@ namespace EFCore.WebAPI.Controllers
         {
             var alu = _context.Alunos.FirstOrDefault(x => x.Id == id);
             if (alu == null) return BadRequest("Aluno não encontrado na base de dados.");
-            _context.Remove(alu);
-            _context.SaveChanges();
-            return Ok("Aluno removido com sucesso!");
+            _repository.Remove(alu);
+            if (_repository.SaveChanges())
+            {
+                return Ok("Aluno removido com sucesso!");
+            }
+            else
+            {
+                return BadRequest("Falha ao tentar remover aluno.");
+            }
         }
     }
 }

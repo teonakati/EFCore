@@ -42,7 +42,7 @@ namespace EFCore.WebAPI.Controllers
         public IActionResult Post([FromBody] Professor professor)
         {
             var prof = professor;
-            if (prof == null) return BadRequest("Ocorreu um erro ao gravar professor.");
+            if (prof == null) return BadRequest("Não é possível gravar um professor NULO.");
             _context.Add(prof);
             _context.SaveChanges();
             return Ok(prof);
