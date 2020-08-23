@@ -1,4 +1,6 @@
-﻿using EFCore.WebAPI.Data;
+﻿using AutoMapper;
+using EFCore.WebAPI.Data;
+using EFCore.WebAPI.Dtos;
 using EFCore.WebAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,11 +15,13 @@ namespace EFCore.WebAPI.Controllers
     public class AlunoController : ControllerBase
     {
         private readonly IRepository _repository;
+        private readonly IMapper _mapper;
 
-        public AlunoController(IRepository repository)
+        public AlunoController(IRepository repository, IMapper mapper)
         {
 
             _repository = repository;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -25,7 +29,8 @@ namespace EFCore.WebAPI.Controllers
         {
             var alu = _repository.GetAllAlunos(true);
             if (alu == null) return BadRequest("Não há alunos cadastrados na base de dados.");
-            return Ok(alu);
+
+            return Ok(_mapper.Map<IEnumerable<AlunoDto>>(alu));
         }
 
         
@@ -34,19 +39,24 @@ namespace EFCore.WebAPI.Controllers
         {
             var alu = _repository.GetAluno(id, false);
             if (alu == null) return BadRequest("Aluno não encontrado na base de dados.");
-            return Ok(alu);
+
+            var alunoDto = _mapper.Map<Aluno>(alu);
+
+            return Ok(alunoDto);
         }
 
         
         [HttpPost]
-        public IActionResult Post([FromBody] Aluno aluno)
+        public IActionResult Post([FromBody] AlunoRegistrarDto model)
         {
-            var alu = aluno;
-            if (alu == null) return BadRequest("Não é possível gravar um aluno NULO.");
-            _repository.Add(alu);
+            if (model == null) return BadRequest("Não é possível gravar um aluno NULO.");
+
+            var aluno = _mapper.Map<Aluno>(model);
+
+            _repository.Add(aluno);
             if (_repository.SaveChanges())
             {
-                return Ok(alu);
+                return Created($"/api/aluno/{model.Id}", _mapper.Map<AlunoDto>(aluno));
             }
             else
             {
@@ -56,14 +66,18 @@ namespace EFCore.WebAPI.Controllers
 
         
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Aluno aluno)
+        public IActionResult Put(int id, [FromBody] AlunoRegistrarDto model)
         {
             var alu = _repository.GetAluno(id, false);
+
             if (alu == null) return BadRequest("Aluno não encontrado na base de dados.");
+
+            _mapper.Map(model, alu);
+
             _repository.Update(alu);
             if (_repository.SaveChanges())
             {
-                return Ok(alu);
+                return Created($"/api/aluno/{model.Id}", _mapper.Map<AlunoDto>(alu));
             }
             else
             {

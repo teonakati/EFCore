@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using EFCore.WebAPI.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,10 +29,11 @@ namespace EFCore.WebAPI
             services.AddDbContext<EntityContext>(
                 context => context.UseSqlServer(Configuration.GetConnectionString("Default"))
             );
-            services.AddScoped<IRepository, Repository>();
             services.AddControllers()
                 .AddNewtonsoftJson(option => option.SerializerSettings.ReferenceLoopHandling =
                                              Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddScoped<IRepository, Repository>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
