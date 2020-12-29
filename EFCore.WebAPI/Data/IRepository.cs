@@ -18,7 +18,7 @@ namespace EFCore.WebAPI.Data
         Aluno GetAluno(int alunoId, bool incluirProfessor);
         Professor[] GetAllProfessores(bool incluirAlunos);
         Professor[] GetAllProfessoresByDisciplinaId(int disciplinaId, bool incluirAlunos);
-        Professor GetProfessor(bool incluirAlunos);
+        Professor GetProfessor(int professorId, bool incluirAlunos);
 
     }
 }

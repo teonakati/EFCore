@@ -118,7 +118,7 @@ namespace EFCore.WebAPI.Data
             return query.ToArray();
         }
 
-        public Professor GetProfessor(bool incluirAlunos)
+        public Professor GetProfessor(int professorId, bool incluirAlunos)
         {
             IQueryable<Professor> query = _context.Professores;
 
@@ -129,7 +129,8 @@ namespace EFCore.WebAPI.Data
                     .ThenInclude(professor => professor.Aluno);
             }
 
-            query = query.AsNoTracking().OrderBy(professor => professor.Id);
+            query = query.AsNoTracking().OrderBy(professor => professor.Id)
+                .Where(professor => professor.Id == professorId);
 
             return query.FirstOrDefault();
         }

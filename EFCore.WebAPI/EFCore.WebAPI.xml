@@ -1,0 +1,149 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EFCore.WebAPI</name>
+    </assembly>
+    <members>
+        <member name="T:EFCore.WebAPI.V1.Controllers.AlunoController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:EFCore.WebAPI.V1.Controllers.AlunoController.#ctor(EFCore.WebAPI.Data.IRepository,AutoMapper.IMapper)">
+            <summary>
+            
+            </summary>
+            <param name="repository"></param>
+            <param name="mapper"></param>
+        </member>
+        <member name="M:EFCore.WebAPI.V1.Controllers.AlunoController.Get">
+            <summary>
+            Retorna todos os Alunos cadastrados
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EFCore.WebAPI.V1.Controllers.AlunoController.GetById(System.Int32)">
+            <summary>
+            Retorna um único aluno buscando por ID
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFCore.WebAPI.V1.Controllers.AlunoController.Post(EFCore.WebAPI.V1.Dtos.AlunoRegistrarDto)">
+            <summary>
+            Grava um novo cadastro de Aluno na base de dados
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFCore.WebAPI.V1.Controllers.AlunoController.Put(System.Int32,EFCore.WebAPI.V1.Dtos.AlunoRegistrarDto)">
+            <summary>
+            Busca um aluno por ID com uma classe de retorno personalizada
+            </summary>
+            <param name="id"></param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFCore.WebAPI.V1.Controllers.AlunoController.Delete(System.Int32)">
+            <summary>
+            Exclui um registro de Aluno
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:EFCore.WebAPI.V1.Controllers.ProfessorController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:EFCore.WebAPI.V1.Controllers.ProfessorController.#ctor(EFCore.WebAPI.Data.IRepository,AutoMapper.IMapper)">
+            <summary>
+            
+            </summary>
+            <param name="repository"></param>
+            <param name="mapper"></param>
+        </member>
+        <member name="M:EFCore.WebAPI.V1.Controllers.ProfessorController.Get">
+            <summary>
+            Método que obtém todos Professores cadastrados
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EFCore.WebAPI.V1.Controllers.ProfessorController.GetById(System.Int32)">
+            <summary>
+            Método que retorna único Professor por ID
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFCore.WebAPI.V1.Controllers.ProfessorController.Post(EFCore.WebAPI.Models.Professor)">
+            <summary>
+            Gravar um cadastro de Professor na base de dados
+            </summary>
+            <param name="professor"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFCore.WebAPI.V1.Controllers.ProfessorController.Put(System.Int32,EFCore.WebAPI.Models.Professor)">
+            <summary>
+            Alterar um cadastro já existente de um Professor
+            </summary>
+            <param name="id"></param>
+            <param name="professor"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFCore.WebAPI.V1.Controllers.ProfessorController.Delete(System.Int32)">
+            <summary>
+            Excluir um registro de Professor
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:EFCore.WebAPI.V2.Controllers.AlunoController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:EFCore.WebAPI.V2.Controllers.AlunoController.#ctor(EFCore.WebAPI.Data.IRepository,AutoMapper.IMapper)">
+            <summary>
+            
+            </summary>
+            <param name="repository"></param>
+            <param name="mapper"></param>
+        </member>
+        <member name="M:EFCore.WebAPI.V2.Controllers.AlunoController.Get">
+            <summary>
+            Retorna todos os Alunos cadastrados
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EFCore.WebAPI.V2.Controllers.AlunoController.GetById(System.Int32)">
+            <summary>
+            Retorna um único aluno buscando por ID
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFCore.WebAPI.V2.Controllers.AlunoController.Post(EFCore.WebAPI.V2.Dtos.AlunoRegistrarDto)">
+            <summary>
+            Grava um novo cadastro de Aluno na base de dados
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFCore.WebAPI.V2.Controllers.AlunoController.Put(System.Int32,EFCore.WebAPI.V2.Dtos.AlunoRegistrarDto)">
+            <summary>
+            Busca um aluno por ID com uma classe de retorno personalizada
+            </summary>
+            <param name="id"></param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFCore.WebAPI.V2.Controllers.AlunoController.Delete(System.Int32)">
+            <summary>
+            Exclui um registro de Aluno
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
