@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
+using EFCore.WebAPI.Helpers;
 
 namespace EFCore.WebAPI.V1.Controllers
 {
@@ -37,10 +39,12 @@ namespace EFCore.WebAPI.V1.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get([FromQuery]PageParams pageParams)
         {
-            var alu = _repository.GetAllAlunos(true);
+            var alu = await _repository.GetAllAlunosAsync(pageParams, true);
             if (alu == null) return BadRequest("Não há alunos cadastrados na base de dados.");
+
+            Response.AddPagination(alu.CurrentPage, alu.PageSize, alu.TotalCount, alu.TotalPages);
 
             return Ok(_mapper.Map<IEnumerable<AlunoDto>>(alu));
         }

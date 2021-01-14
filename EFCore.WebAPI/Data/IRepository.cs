@@ -1,4 +1,5 @@
-﻿using EFCore.WebAPI.Models;
+﻿using EFCore.WebAPI.Helpers;
+using EFCore.WebAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace EFCore.WebAPI.Data
         bool SaveChanges();
 
         Aluno[] GetAllAlunos(bool incluirProfessor);
+        Task<PageList<Aluno>> GetAllAlunosAsync(PageParams pageParams, bool incluirProfessor = false);
         Aluno[] GetAllAlunosByDisciplinaId(int disciplinaId, bool incluirProfessor);
         Aluno GetAluno(int alunoId, bool incluirProfessor);
         Professor[] GetAllProfessores(bool incluirAlunos);

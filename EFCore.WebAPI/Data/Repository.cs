@@ -1,4 +1,5 @@
-﻿using EFCore.WebAPI.Models;
+﻿using EFCore.WebAPI.Helpers;
+using EFCore.WebAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -48,6 +49,27 @@ namespace EFCore.WebAPI.Data
             query = query.AsNoTracking().OrderBy(aluno => aluno.Id);
 
             return query.ToArray();
+        }
+
+        public async Task<PageList<Aluno>> GetAllAlunosAsync(PageParams pageParams, bool incluirProfessor = false)
+        {
+            IQueryable<Aluno> query = _context.Alunos;
+
+            if (incluirProfessor)
+            {
+                query = query.Include(aluno => aluno.AlunosDisciplinas)
+                    .ThenInclude(aluno => aluno.Disciplina)
+                    .ThenInclude(aluno => aluno.Professor);
+            }
+
+            query = query.AsNoTracking().OrderBy(aluno => aluno.Id);
+
+            if (!string.IsNullOrEmpty(pageParams.Nome))
+            {
+                query = query.Where(aluno => aluno.Nome.ToLower().Contains(pageParams.Nome.ToLower()));
+            }
+
+            return await PageList<Aluno>.CreateAsync(query, pageParams.PageNumber, pageParams.PageSize);
         }
 
         public Aluno[] GetAllAlunosByDisciplinaId(int disciplinaId, bool incluirProfessor = false)

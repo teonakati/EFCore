@@ -16,7 +16,7 @@
             <param name="repository"></param>
             <param name="mapper"></param>
         </member>
-        <member name="M:EFCore.WebAPI.V1.Controllers.AlunoController.Get">
+        <member name="M:EFCore.WebAPI.V1.Controllers.AlunoController.Get(EFCore.WebAPI.Helpers.PageParams)">
             <summary>
             Retorna todos os Alunos cadastrados
             </summary>
