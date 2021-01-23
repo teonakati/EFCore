@@ -1,0 +1,35 @@
+version: "3.5"
+
+volumes:
+ SmartSchoolDb:
+
+networks:
+ sqlserverNET:
+ smartschoolNET:
+
+services:
+ sqlserver:
+  image: "mcr.microsoft.com/mssql/server"
+  container_name: sqlserver
+  ports:
+   - "1433:1433"
+  volumes:
+   - SmartSchoolDb:/var/lib/sqlserver
+  networks:
+   - sqlserverNET
+  environment:
+   - ACCEPT_EULA=Y
+   - SA_PASSWORD=Super#123
+
+ smartschool:
+  build:
+   context: .
+   dockerfile: Dockerfile
+  container_name: smartschool
+  ports: 
+   - 500:80
+  networks:
+   - sqlserverNET
+   - smartschoolNET
+  depends_on:
+   - sqlserver
